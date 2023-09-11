@@ -11,11 +11,15 @@ public class AchievementService {
 
     private AchievementRepository achievementRepository;
 
-    public Achievement findById(long id) {
-        return achievementRepository.findById(id).orElse( null );
+    public AchievementService(AchievementRepository achievementRepository) {
+        this.achievementRepository = achievementRepository;
     }
 
-    public List<Achievement> getAllAchievementsByHabit(long hab_id) {
+    public Achievement findById(long id) {
+        return achievementRepository.findById(id).orElse(null);
+    }
+
+    public List<Achievement> getAllAchievementsByHabit(String hab_id) {
         return achievementRepository.getAllAchievementsByHabit(hab_id);
     }
 
@@ -23,7 +27,7 @@ public class AchievementService {
         achievementRepository.save(achievement);
     }
 
-    public Achievement makeAchievement(String name, long habId) {
+    public Achievement makeAchievement(String name, String habId) {
         Achievement achievement = new Achievement();
         achievement.setName(name);
         achievement.setCurrentStreak(0);

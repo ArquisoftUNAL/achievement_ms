@@ -19,12 +19,12 @@ public class AchievementController {
     }
 
     @GetMapping("/{hab_id}")
-    public List<Achievement> getAllAchievementsByHabit(@PathVariable long hab_id) {
+    public List<Achievement> getAllAchievementsByHabit(@PathVariable String hab_id) {
         return achievementService.getAllAchievementsByHabit(hab_id);
     }
 
-    @PostMapping( value = {"/create-ach"})
-    public void createAchievement(@RequestBody String name, long habId) {
+    @PostMapping(value = { "/create-ach" })
+    public void createAchievement(@RequestBody String name, String habId) {
         Achievement achievement = achievementService.makeAchievement(name, habId);
         achievementService.save(achievement);
     }

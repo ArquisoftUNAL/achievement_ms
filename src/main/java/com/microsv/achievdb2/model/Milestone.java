@@ -5,24 +5,24 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="milestones")
+@Table(name = "Milestone")
 public class Milestone {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="mil_id")
+    @Column(name = "mil_id")
     private long id;
 
-    @Column(name="mil_streak")
+    @Column(name = "mil_streak")
     private Integer streak;
 
-    @Column(name="mil_date")
+    @Column(name = "mil_date")
     private Date date;
 
-    @Column(name="mil_achieved")
+    @Column(name = "mil_achieved")
     private boolean achieved;
 
     @ManyToOne
-    @JoinColumn(name="ach_id")
+    @JoinColumn(name = "ach_id")
     private Achievement achievement;
 
     public Long getId() {

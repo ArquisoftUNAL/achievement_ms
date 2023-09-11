@@ -3,11 +3,11 @@ package com.microsv.achievdb2.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="achievements")
+@Table(name = "Achievement")
 public class Achievement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="ach_id")
+    @Column(name = "ach_id")
     private long id;
 
     @Column(name = "ach_name")
@@ -19,8 +19,8 @@ public class Achievement {
     @Column(name = "ach_highest_streak")
     private Integer highestStreak;
 
-    @Column(name="hab_id")
-    private long habit;
+    @Column(name = "hab_id")
+    private String habit;
 
     public Long getId() {
         return this.id;
@@ -54,11 +54,11 @@ public class Achievement {
         this.highestStreak = highestStreak;
     }
 
-    public long getHabit() {
+    public String getHabit() {
         return habit;
     }
 
-    public void setHabit(long habit) {
+    public void setHabit(String habit) {
         this.habit = habit;
     }
 }

@@ -1,9 +1,9 @@
 version: '3.9'
 
 services:
-  achievdb2-app:
-    container_name: achievdb2-app
-    image: ach-microservice:1.0.0
+  habitus_achievements_ms:
+    container_name: habitus_achievements_ms
+    image: habitus_achievements_ms
     build: .
     ports:
       - 8181:8181
@@ -13,12 +13,12 @@ services:
       - DATABASE_PASSWORD=postgres
     depends_on:
       - achievdb2-db
-  achievdb2-db:
-    container_name: achievdb2-db
-    image: postgres:12
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+  # achievdb2-db:
+  #   container_name: achievdb2-db
+  #   image: postgres:12
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: postgres

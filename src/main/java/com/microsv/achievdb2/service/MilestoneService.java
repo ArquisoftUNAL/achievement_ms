@@ -14,6 +14,10 @@ public class MilestoneService {
 
     private MilestoneRepository milestoneRepository;
 
+    public MilestoneService(MilestoneRepository milestoneRepository) {
+        this.milestoneRepository = milestoneRepository;
+    }
+
     public List<Milestone> getAllMilestonesByAchievement(long ach_id) {
         return milestoneRepository.getAllMilestonesByAchievement(ach_id);
     }
