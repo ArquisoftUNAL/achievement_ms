@@ -6,6 +6,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.micrometer.common.lang.NonNull;
+
 @Entity
 @Table(name = "Milestone")
 public class Milestone {
@@ -15,12 +17,15 @@ public class Milestone {
     private long id;
 
     @Column(name = "mil_streak")
+    @NonNull
     private Integer streak;
 
     @Column(name = "mil_date")
+    @NonNull
     private Date date;
 
     @Column(name = "mil_achieved")
+    @NonNull
     private boolean achieved;
 
     @ManyToOne

@@ -1,5 +1,6 @@
 package com.microsv.achievdb2.model;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,15 +12,19 @@ public class Achievement {
     private long id;
 
     @Column(name = "ach_name")
+    @NonNull
     private String name;
 
     @Column(name = "ach_current_streak")
+    @NonNull
     private Integer currentStreak;
 
     @Column(name = "ach_highest_streak")
+    @NonNull
     private Integer highestStreak;
 
     @Column(name = "hab_id")
+    @NonNull
     private String habit;
 
     public Long getId() {

@@ -39,6 +39,7 @@ public class AchievementController {
     public ResponseEntity<Achievement> updateAchievement(@PathVariable Long ach_id,
             @RequestBody AchievementPOJO body) {
         Achievement achievement = achievementService.updateAchievement(ach_id, body);
+        achievementService.save(achievement);
         return ResponseEntity.ok(achievement);
     }
 

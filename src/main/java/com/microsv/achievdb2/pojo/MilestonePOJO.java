@@ -1,27 +1,27 @@
 package com.microsv.achievdb2.pojo;
 
 public class MilestonePOJO {
-    public int num;
+    public int streak;
     public long achId;
 
-    public MilestonePOJO(int num, long achId) {
-        this.num = num;
+    public MilestonePOJO(int streak, long achId) {
+        this.streak = streak;
         this.achId = achId;
     }
 
     public MilestonePOJO() {
     }
 
-    public int getNum() {
-        return num;
+    public int getStreak() {
+        return streak;
     }
 
     public long getAchId() {
         return achId;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setStreak(int streak) {
+        this.streak = streak;
     }
 
     public void setHabId(long archId) {

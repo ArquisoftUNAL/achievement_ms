@@ -24,10 +24,12 @@ public class AchievementService {
         return achievementRepository.getAllAchievementsByHabit(hab_id);
     }
 
-    public Achievement updateAchievement(Long ach_id, AchievementPOJO body) {
+    public Achievement updateAchievement(Long ach_id, AchievementPOJO achievementPOJO) {
         Achievement achievement = findById(ach_id);
-        achievement.setName(body.name == null ? body.name : achievement.getName());
-        achievement.setHabit(body.habId == null ? body.habId : achievement.getHabit());
+        achievement.setName(achievementPOJO.getName() != null ? achievementPOJO.getName() : achievement.getName());
+        achievement
+                .setHabit(achievementPOJO.getHabId() != null ? achievementPOJO.getHabId() : achievement.getHabit());
+
         return achievement;
     }
 
@@ -39,12 +41,12 @@ public class AchievementService {
         achievementRepository.save(achievement);
     }
 
-    public Achievement makeAchievement(AchievementPOJO body) {
+    public Achievement makeAchievement(AchievementPOJO achievementPOJO) {
         Achievement achievement = new Achievement();
-        achievement.setName(body.name);
+        achievement.setName(achievementPOJO.getName());
         achievement.setCurrentStreak(0);
         achievement.setHighestStreak(0);
-        achievement.setHabit(body.habId);
+        achievement.setHabit(achievementPOJO.getHabId());
         return achievement;
     }
 

@@ -2,9 +2,12 @@ package com.microsv.achievdb2.controller;
 
 import com.microsv.achievdb2.model.Achievement;
 import com.microsv.achievdb2.model.Milestone;
+import com.microsv.achievdb2.pojo.AchievementPOJO;
 import com.microsv.achievdb2.pojo.MilestonePOJO;
 import com.microsv.achievdb2.service.AchievementService;
 import com.microsv.achievdb2.service.MilestoneService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +18,9 @@ import java.util.List;
 public class MilestoneController {
 
     private final MilestoneService milestoneService;
-    private final AchievementService achievementService;
 
-    public MilestoneController(MilestoneService milestoneService, AchievementService achievementService) {
+    public MilestoneController(MilestoneService milestoneService) {
         this.milestoneService = milestoneService;
-        this.achievementService = achievementService;
     }
 
     @GetMapping("/{ach_id}")
@@ -29,9 +30,22 @@ public class MilestoneController {
 
     @PostMapping(value = { "/create-mil" })
     public void createMilestone(@RequestBody MilestonePOJO body) {
-        Achievement achievement = achievementService.findById(body.achId);
-        Milestone milestone = milestoneService.makeMilestone(body.num, achievement);
+        Milestone milestone = milestoneService.makeMilestone(body);
         milestoneService.save(milestone);
+    }
+
+    @DeleteMapping("/{mil_id}")
+    public void deleteMilestione(@PathVariable Long mil_id) {
+        milestoneService.deleteMilestone(mil_id);
+    }
+
+    @PatchMapping("/{mil_id}")
+    public ResponseEntity<Milestone> upd(
+            @PathVariable Long mil_id,
+            @RequestBody MilestonePOJO body) {
+        Milestone milestone = milestoneService.updateMilestone(mil_id, body);
+        milestoneService.save(milestone);
+        return ResponseEntity.ok(milestone);
     }
 
 }
