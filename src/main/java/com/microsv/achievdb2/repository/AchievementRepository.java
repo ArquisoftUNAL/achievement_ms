@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface AchievementRepository extends JpaRepository<Achievement, Long> {
 
-    @Query(value = "Select u FROM Achievement u WHERE u.hab_id = :hab_id", nativeQuery = true)
-    List<Achievement> getAllAchievementsByHabit(@Param("hab_id") String hab_id);
+    @Query(value = "Select * FROM Achievement u WHERE u.hab_id = :hab_id", nativeQuery = true)
+    List<Achievement> getAllAchievementsByHabit(@Param(value = "hab_id") String hab_id);
 }

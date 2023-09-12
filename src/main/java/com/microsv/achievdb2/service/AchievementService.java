@@ -1,6 +1,7 @@
 package com.microsv.achievdb2.service;
 
 import com.microsv.achievdb2.model.Achievement;
+import com.microsv.achievdb2.pojo.AchievementPOJO;
 import com.microsv.achievdb2.repository.AchievementRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,12 @@ public class AchievementService {
         achievementRepository.save(achievement);
     }
 
-    public Achievement makeAchievement(String name, String habId) {
+    public Achievement makeAchievement(AchievementPOJO body) {
         Achievement achievement = new Achievement();
-        achievement.setName(name);
+        achievement.setName(body.name);
         achievement.setCurrentStreak(0);
         achievement.setHighestStreak(0);
-        achievement.setHabit(habId);
+        achievement.setHabit(body.habId);
         return achievement;
     }
 
