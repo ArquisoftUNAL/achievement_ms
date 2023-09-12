@@ -2,18 +2,18 @@ version: '3.9'
 
 services:
   habitus_achievements_ms:
-     container_name: habitus_achievements_ms
-     image: habitus_achievements_ms
-     build: .
-     restart: on-failure
-     ports:
-       - 8181:8181
-     environment:
-       - DATABASE_URL=jdbc:postgresql://habitus_achievements_db:5432/postgres
-       - DATABASE_USERNAME=postgres
-       - DATABASE_PASSWORD=postgres
-     depends_on:
-       - habitus_achievements_db
+    container_name: habitus_achievements_ms
+    image: habitus_achievements_ms
+    build: .
+    restart: on-failure
+    ports:
+      - 8181:8181
+    environment:
+      - DATABASE_URL=jdbc:postgresql://host.docker.internal:5432/postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - habitus_achievements_db
   habitus_achievements_db:
     container_name: habitus_achievements_db
     image: postgres:12
