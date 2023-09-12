@@ -35,14 +35,21 @@ public class MilestoneController {
     }
 
     @DeleteMapping("/{mil_id}")
-    public void deleteMilestione(@PathVariable Long mil_id) {
+    public ResponseEntity<?> deleteMilestione(@PathVariable Long mil_id) {
+        if (milestoneService.findById(mil_id)==null) {
+            return null;
+        }
         milestoneService.deleteMilestone(mil_id);
+        return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
     @PatchMapping("/{mil_id}")
     public ResponseEntity<Milestone> upd(
             @PathVariable Long mil_id,
             @RequestBody MilestonePOJO body) {
+        if (milestoneService.findById(mil_id)==null) {
+            return null;
+        }
         Milestone milestone = milestoneService.updateMilestone(mil_id, body);
         milestoneService.save(milestone);
         return ResponseEntity.ok(milestone);
