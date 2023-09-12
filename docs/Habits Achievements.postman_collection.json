@@ -216,6 +216,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "On Data Collected",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dataCollected\": \"2021-10-21\",\r\n    \"habId\": \"Test1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8181/api/achievements/data-collected",
+							"host": [
+								"localhost"
+							],
+							"port": "8181",
+							"path": [
+								"api",
+								"achievements",
+								"data-collected"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

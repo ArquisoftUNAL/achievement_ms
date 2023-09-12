@@ -5,6 +5,7 @@ import com.microsv.achievdb2.service.AchievementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.microsv.achievdb2.pojo.AchievementPOJO;
+import com.microsv.achievdb2.pojo.DataIncomingPOJO;
 
 import java.util.List;
 
@@ -30,9 +31,14 @@ public class AchievementController {
         achievementService.save(achievement);
     }
 
+    @PostMapping(value = "/data-collected")
+    public void dataCollected(@RequestBody DataIncomingPOJO body) {
+        achievementService.dataCollected(body);
+    }
+
     @DeleteMapping("/{ach_id}")
     public ResponseEntity<?> deleteAchievement(@PathVariable Long ach_id) {
-        if (achievementService.findById(ach_id)==null) {
+        if (achievementService.findById(ach_id) == null) {
             return null;
         }
         achievementService.deleteAchievement(ach_id);
@@ -42,7 +48,7 @@ public class AchievementController {
     @PatchMapping("/{ach_id}")
     public ResponseEntity<Achievement> updateAchievement(@PathVariable Long ach_id,
             @RequestBody AchievementPOJO body) {
-        if (achievementService.findById(ach_id)==null) {
+        if (achievementService.findById(ach_id) == null) {
             return null;
         }
         Achievement achievement = achievementService.updateAchievement(ach_id, body);
