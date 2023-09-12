@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface MilestoneRepository extends JpaRepository<Milestone, Long> {
 
-    @Query(value = "SELECT u FROM Milestone u WHERE u.ach_id = :ach_id", nativeQuery = true)
-    List<Milestone> getAllMilestonesByAchievement(@Param("ach_id") long ach_id);
+    @Query(value = "Select * FROM Milestone u WHERE u.ach_id = :ach_id", nativeQuery = true)
+    List<Milestone> getAllMilestonesByAchievement(@Param(value = "ach_id") Long ach_id);
 }

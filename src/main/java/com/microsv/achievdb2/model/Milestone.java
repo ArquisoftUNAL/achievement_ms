@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Milestone")
 public class Milestone {
@@ -23,6 +25,7 @@ public class Milestone {
 
     @ManyToOne
     @JoinColumn(name = "ach_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Achievement achievement;
 
     public Long getId() {

@@ -4,6 +4,7 @@ import com.microsv.achievdb2.model.Achievement;
 import com.microsv.achievdb2.service.AchievementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.microsv.achievdb2.pojo.AchievementPOJO;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class AchievementController {
     }
 
     @PostMapping(value = { "/create-ach" })
-    public void createAchievement(@RequestBody String name, String habId) {
-        Achievement achievement = achievementService.makeAchievement(name, habId);
+    public void createAchievement(@RequestBody AchievementPOJO body) {
+        Achievement achievement = achievementService.makeAchievement(body);
         achievementService.save(achievement);
     }
 
