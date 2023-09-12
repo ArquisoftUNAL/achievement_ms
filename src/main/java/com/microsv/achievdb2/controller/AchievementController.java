@@ -30,4 +30,16 @@ public class AchievementController {
         achievementService.save(achievement);
     }
 
+    @DeleteMapping("/{ach_id}")
+    public void deleteAchievement(@PathVariable Long ach_id) {
+        achievementService.deleteAchievement(ach_id);
+    }
+
+    @PatchMapping("/{ach_id}")
+    public ResponseEntity<Achievement> updateAchievement(@PathVariable Long ach_id,
+            @RequestBody AchievementPOJO body) {
+        Achievement achievement = achievementService.updateAchievement(ach_id, body);
+        return ResponseEntity.ok(achievement);
+    }
+
 }

@@ -24,6 +24,17 @@ public class AchievementService {
         return achievementRepository.getAllAchievementsByHabit(hab_id);
     }
 
+    public Achievement updateAchievement(Long ach_id, AchievementPOJO body) {
+        Achievement achievement = findById(ach_id);
+        achievement.setName(body.name == null ? body.name : achievement.getName());
+        achievement.setHabit(body.habId == null ? body.habId : achievement.getHabit());
+        return achievement;
+    }
+
+    public void deleteAchievement(Long ach_id) {
+        achievementRepository.deleteById(ach_id);
+    }
+
     public void save(Achievement achievement) {
         achievementRepository.save(achievement);
     }
