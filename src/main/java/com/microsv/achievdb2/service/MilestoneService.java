@@ -21,6 +21,10 @@ public class MilestoneService {
         this.achievementRepository = achievementRepository;
     }
 
+    public Milestone findById(long id) {
+        return milestoneRepository.findById(id).orElse(null);
+    }
+
     public List<Milestone> getAllMilestonesByAchievement(long ach_id) {
         return milestoneRepository.getAllMilestonesByAchievement(ach_id);
     }

@@ -31,19 +31,19 @@ public class AchievementController {
     }
 
     @DeleteMapping("/{ach_id}")
-    public ResponseEntity.HeadersBuilder<?> deleteAchievement(@PathVariable Long ach_id) {
+    public ResponseEntity<?> deleteAchievement(@PathVariable Long ach_id) {
         if (achievementService.findById(ach_id)==null) {
-            return ResponseEntity.notFound();
+            return null;
         }
         achievementService.deleteAchievement(ach_id);
-        return ResponseEntity.ok();
+        return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
     @PatchMapping("/{ach_id}")
     public ResponseEntity<Achievement> updateAchievement(@PathVariable Long ach_id,
             @RequestBody AchievementPOJO body) {
         if (achievementService.findById(ach_id)==null) {
-            return (ResponseEntity<Achievement>) ResponseEntity.notFound();
+            return null;
         }
         Achievement achievement = achievementService.updateAchievement(ach_id, body);
         achievementService.save(achievement);
