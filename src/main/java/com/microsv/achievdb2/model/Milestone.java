@@ -2,19 +2,25 @@ package com.microsv.achievdb2.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.micrometer.common.lang.NonNull;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "Milestone")
 public class Milestone {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "mil_id")
-    private long id;
+    private String id;
 
     @Column(name = "mil_streak")
     @NonNull
@@ -22,22 +28,18 @@ public class Milestone {
 
     @Column(name = "mil_date")
     @NonNull
-    private Date date;
-
-    @Column(name = "mil_achieved")
-    @NonNull
-    private boolean achieved;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "ach_id")
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Achievement achievement;
 
-    public Long getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -49,20 +51,12 @@ public class Milestone {
         this.streak = streak;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public boolean isAchieved() {
-        return achieved;
-    }
-
-    public void setAchieved(boolean achieved) {
-        this.achieved = achieved;
     }
 
     public Achievement getAchievement() {

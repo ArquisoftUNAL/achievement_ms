@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MilestoneRepository extends JpaRepository<Milestone, Long> {
+public interface MilestoneRepository extends JpaRepository<Milestone, String> {
 
     @Query(value = "Select * FROM Milestone u WHERE u.ach_id = :ach_id", nativeQuery = true)
-    List<Milestone> getAllMilestonesByAchievement(@Param(value = "ach_id") Long ach_id);
+    List<Milestone> getAllMilestonesByAchievement(@Param(value = "ach_id") String ach_id);
 }

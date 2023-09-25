@@ -5,18 +5,20 @@ import com.microsv.achievdb2.pojo.AchievementPOJO;
 import com.microsv.achievdb2.repository.AchievementRepository;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class AchievementService {
 
-    private AchievementRepository achievementRepository;
+    private final AchievementRepository achievementRepository;
 
     public AchievementService(AchievementRepository achievementRepository) {
         this.achievementRepository = achievementRepository;
     }
 
-    public Achievement findById(long id) {
+    public Achievement findById(String id) {
         return achievementRepository.findById(id).orElse(null);
     }
 
@@ -24,16 +26,19 @@ public class AchievementService {
         return achievementRepository.getAllAchievementsByHabit(hab_id);
     }
 
-    public Achievement updateAchievement(Long ach_id, AchievementPOJO achievementPOJO) {
+    public Achievement updateAchievement(String ach_id, AchievementPOJO achievementPOJO) {
         Achievement achievement = findById(ach_id);
         achievement.setName(achievementPOJO.getName() != null ? achievementPOJO.getName() : achievement.getName());
         achievement
-                .setHabit(achievementPOJO.getHabId() != null ? achievementPOJO.getHabId() : achievement.getHabit());
+                .setCurrentStreak(achievementPOJO.getCurrentStreak() != null ? achievementPOJO.getCurrentStreak() : achievement.getCurrentStreak());
+        achievement
+                .setHighestStreak(achievementPOJO.getHighestStreak() != null ? achievementPOJO.getHighestStreak() : achievement.getHighestStreak());
+        achievement.setLastCollection(LocalDate.now());
 
         return achievement;
     }
 
-    public void deleteAchievement(Long ach_id) {
+    public void deleteAchievement(String ach_id) {
         achievementRepository.deleteById(ach_id);
     }
 
@@ -43,10 +48,31 @@ public class AchievementService {
 
     public Achievement makeAchievement(AchievementPOJO achievementPOJO) {
         Achievement achievement = new Achievement();
-        achievement.setName(achievementPOJO.getName());
-        achievement.setCurrentStreak(0);
-        achievement.setHighestStreak(0);
-        achievement.setHabit(achievementPOJO.getHabId());
+        String name = achievementPOJO.getName();
+        String habId = achievementPOJO.getHabId();
+        if (name == null || habId == null) {
+            return null;
+        }
+        achievement.setName(name);
+        achievement.setCurrentStreak(0.0);
+        achievement.setHighestStreak(0.0);
+        achievement.setLastCollection(LocalDate.now());
+        achievement.setHabit(habId);
+        return achievement;
+    }
+
+    public Achievement updateStreak(String ach_id, boolean retain_streak) {
+        Achievement achievement = findById(ach_id);
+        if (retain_streak) {
+            achievement.setCurrentStreak(achievement.getCurrentStreak()+1);
+            if (achievement.getHighestStreak() < achievement.getCurrentStreak()) {
+                achievement.setHighestStreak(achievement.getCurrentStreak());
+            }
+        } else {
+            achievement.setCurrentStreak(0.0);
+        }
+        achievement.setLastCollection(LocalDate.now());
+
         return achievement;
     }
 

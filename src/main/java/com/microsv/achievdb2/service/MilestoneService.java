@@ -13,19 +13,19 @@ import java.util.List;
 @Service
 public class MilestoneService {
 
-    private MilestoneRepository milestoneRepository;
-    private AchievementRepository achievementRepository;
+    private final MilestoneRepository milestoneRepository;
+    private final AchievementRepository achievementRepository;
 
     public MilestoneService(MilestoneRepository milestoneRepository, AchievementRepository achievementRepository) {
         this.milestoneRepository = milestoneRepository;
         this.achievementRepository = achievementRepository;
     }
 
-    public Milestone findById(long id) {
+    public Milestone findById(String id) {
         return milestoneRepository.findById(id).orElse(null);
     }
 
-    public List<Milestone> getAllMilestonesByAchievement(long ach_id) {
+    public List<Milestone> getAllMilestonesByAchievement(String ach_id) {
         return milestoneRepository.getAllMilestonesByAchievement(ach_id);
     }
 
@@ -33,21 +33,13 @@ public class MilestoneService {
         milestoneRepository.save(milestone);
     }
 
-    public void deleteMilestone(Long mil_id) {
+    public void deleteMilestone(String mil_id) {
         milestoneRepository.deleteById(mil_id);
     }
 
-    public Milestone updateMilestone(Long mil_id, MilestonePOJO milestonePOJO) {
-        Milestone milestone = milestoneRepository.findById(mil_id).orElse(null);
-
-        if (milestone == null) {
-            return null;
-        }
-
-        // Get reference to achievement
-        Achievement achievement = achievementRepository.findById(milestonePOJO.getAchId()).orElse(null);
-        milestone.setAchievement(achievement);
-        milestone.setDate(new Date());
+    public Milestone updateMilestone(String mil_id, MilestonePOJO milestonePOJO) {
+        Milestone milestone = findById(mil_id);
+        milestone.setDate(milestonePOJO.getDate());
         milestone.setStreak(milestone.getStreak());
         return milestone;
     }
@@ -59,8 +51,7 @@ public class MilestoneService {
 
         Milestone milestone = new Milestone();
         milestone.setStreak(milestonePOJO.getStreak());
-        milestone.setDate(new Date());
-        milestone.setAchieved(false);
+        milestone.setDate(milestonePOJO.getDate());
         milestone.setAchievement(achievement);
         return milestone;
     }

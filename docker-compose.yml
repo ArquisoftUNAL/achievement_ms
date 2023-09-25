@@ -7,7 +7,7 @@ services:
     build: .
     restart: on-failure
     ports:
-      - 8181:8181
+      - "8181:8181"
     environment:
       - DATABASE_URL=jdbc:postgresql://host.docker.internal:5432/postgres
       - DATABASE_USERNAME=postgres
@@ -18,7 +18,7 @@ services:
     container_name: habitus_achievements_db
     image: postgres:12
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
