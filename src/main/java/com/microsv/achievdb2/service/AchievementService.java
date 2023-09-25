@@ -12,10 +12,12 @@ import java.util.List;
 @Service
 public class AchievementService {
 
-    private final AchievementRepository achievementRepository;
+    private AchievementRepository achievementRepository;
+    private MilestoneService milestoneService;
 
-    public AchievementService(AchievementRepository achievementRepository) {
+    public AchievementService(AchievementRepository achievementRepository, MilestoneService milestoneService) {
         this.achievementRepository = achievementRepository;
+        this.milestoneService = milestoneService;
     }
 
     public Achievement findById(String id) {
