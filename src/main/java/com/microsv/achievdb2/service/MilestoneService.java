@@ -25,8 +25,8 @@ public class MilestoneService {
         return milestoneRepository.findById(id).orElse(null);
     }
 
-    public List<Milestone> getAllMilestonesByAchievement(String ach_id) {
-        return milestoneRepository.getAllMilestonesByAchievement(ach_id);
+    public List<Milestone> getAllMilestonesByAchievement(String ach_id, int page, int per_page) {
+        return milestoneRepository.getAllMilestonesByAchievement(ach_id,(page-1)*per_page, per_page);
     }
 
     public void save(Milestone milestone) {

@@ -1,6 +1,5 @@
 package com.microsv.achievdb2.controller;
 
-import com.microsv.achievdb2.model.Achievement;
 import com.microsv.achievdb2.model.Milestone;
 import com.microsv.achievdb2.pojo.*;
 import com.microsv.achievdb2.service.AchievementService;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin
 @RestController
 @RequestMapping("/api/milestones")
@@ -19,17 +16,23 @@ public class MilestoneController {
 
     private final MilestoneService milestoneService;
 
-    public MilestoneController(MilestoneService milestoneService) {
+    private final AchievementService achievementService;
+
+    public MilestoneController(MilestoneService milestoneService, AchievementService achievementService) {
         this.milestoneService = milestoneService;
+        this.achievementService = achievementService;
     }
 
-    @GetMapping("/{ach_id}")
-    public ResponseEntity<MilestoneListResponsePOJO> getAllMilestonesByAchievement(@PathVariable String ach_id) {
-        return new ResponseEntity<>(new MilestoneListResponsePOJO("Milestones found", milestoneService.getAllMilestonesByAchievement(ach_id)), HttpStatus.OK);
+    @GetMapping("/{ach_id}/{page}/{per_page}")
+    public ResponseEntity<MilestoneListResponsePOJO> getAllMilestonesByAchievement(@PathVariable String ach_id, @PathVariable int page, @PathVariable int per_page) {
+        return new ResponseEntity<>(new MilestoneListResponsePOJO("Milestones found", milestoneService.getAllMilestonesByAchievement(ach_id,page,per_page)), HttpStatus.OK);
     }
 
     @PostMapping(value = { "/create-mil" })
     public ResponseEntity<MessageResponsePOJO> createMilestone(@RequestBody MilestonePOJO body) {
+        if (achievementService.findById(body.getAchId())==null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: achievement not found"),HttpStatus.NOT_FOUND);
+        }
         Milestone milestone = milestoneService.makeMilestone(body);
         if (milestone == null) {
             return new ResponseEntity<>(new MessageResponsePOJO("Error: could not create milestone"), HttpStatus.BAD_REQUEST);
