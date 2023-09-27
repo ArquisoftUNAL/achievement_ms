@@ -24,8 +24,8 @@ public class AchievementService {
         return achievementRepository.findById(id).orElse(null);
     }
 
-    public List<Achievement> getAllAchievementsByHabit(String hab_id) {
-        return achievementRepository.getAllAchievementsByHabit(hab_id);
+    public List<Achievement> getAllAchievementsByHabit(String hab_id, int page, int per_page) {
+        return achievementRepository.getAllAchievementsByHabit(hab_id,(page-1)*per_page, per_page);
     }
 
     public Achievement updateAchievement(String ach_id, AchievementPOJO achievementPOJO) {

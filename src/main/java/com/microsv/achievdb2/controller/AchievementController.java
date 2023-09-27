@@ -21,9 +21,9 @@ public class AchievementController {
         this.achievementService = achievementService;
     }
 
-    @GetMapping("/{hab_id}")
-    public ResponseEntity<AchievementListResponsePOJO> getAllAchievementsByHabit(@PathVariable String hab_id) {
-        return new ResponseEntity<>(new AchievementListResponsePOJO("Achievements found", achievementService.getAllAchievementsByHabit(hab_id)), HttpStatus.OK);
+    @GetMapping("/{hab_id}/{page}/{per_page}")
+    public ResponseEntity<AchievementListResponsePOJO> getAllAchievementsByHabit(@PathVariable String hab_id, @PathVariable int page, @PathVariable int per_page) {
+        return new ResponseEntity<>(new AchievementListResponsePOJO("Achievements found", achievementService.getAllAchievementsByHabit(hab_id,page,per_page)), HttpStatus.OK);
     }
 
     @PostMapping(value = { "/create-ach" })
