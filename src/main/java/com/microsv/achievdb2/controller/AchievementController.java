@@ -1,14 +1,17 @@
 package com.microsv.achievdb2.controller;
 
 import com.microsv.achievdb2.model.Achievement;
-import com.microsv.achievdb2.pojo.AchievementListResponsePOJO;
-import com.microsv.achievdb2.pojo.AchievementResponsePOJO;
-import com.microsv.achievdb2.pojo.MessageResponsePOJO;
+import com.microsv.achievdb2.model.Milestone;
+import com.microsv.achievdb2.pojo.*;
 import com.microsv.achievdb2.service.AchievementService;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.microsv.achievdb2.pojo.AchievementPOJO;
+
+import java.util.Collections;
+import java.util.List;
+import java.time.LocalDate;
 
 @CrossOrigin
 @RestController
@@ -64,5 +67,21 @@ public class AchievementController {
         Achievement achievement = achievementService.updateStreak(ach_id, Boolean.parseBoolean(retain_streak));
         achievementService.save(achievement);
         return new ResponseEntity<>(new AchievementResponsePOJO("Streak updated", achievement), HttpStatus.OK);
+    }
+
+    @PatchMapping("/patch-streak")
+    public ResponseEntity<?> patchStreak(@RequestBody PatchStreakPOJO update_info) {
+        List<Achievement> achievementList = achievementService.getAllAchievementsByHabit(update_info.hab_id);
+        if (achievementList.isEmpty()) {
+            return new ResponseEntity<>(new AchievementResponsePOJO("Achievements not found", null), HttpStatus.NOT_FOUND);
+        }
+        List<Milestone> milestoneList = Collections.<Milestone>emptyList();
+        for (Achievement a: achievementList) {
+            PatchPairPOJO patchResult = achievementService.patchStreak(a, update_info);
+            achievementService.save(patchResult.getAchievement());
+            milestoneList.addAll(patchResult.getMilestoneList());
+        }
+        achievementList = achievementService.getAllAchievementsByHabit(update_info.hab_id);
+        return new ResponseEntity<>(new PatchResponsePOJO("Streaks updated", new PatchResponsePairPOJO(achievementList, milestoneList)), HttpStatus.OK);
     }
 }
