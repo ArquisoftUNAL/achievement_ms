@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -42,7 +43,7 @@ public class AchievementController {
     @DeleteMapping("/del-ach")
     public ResponseEntity<MessageResponsePOJO> deleteAchievement(@RequestHeader ("ach-id") String ach_id) {
         if (achievementService.findById(ach_id)==null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Achievement does not exist"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement does not exist"), HttpStatus.NOT_FOUND);
         }
         achievementService.deleteAchievement(ach_id);
         return new ResponseEntity<>(new MessageResponsePOJO("Achievement deleted"), HttpStatus.OK);
@@ -52,7 +53,7 @@ public class AchievementController {
     public ResponseEntity<AchievementResponsePOJO> updateAchievement(@RequestHeader ("ach-id") String ach_id,
                                                                      @RequestBody AchievementPOJO body) {
         if (achievementService.findById(ach_id)==null) {
-            return new ResponseEntity<>(new AchievementResponsePOJO("Achievement does not exist", null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new AchievementResponsePOJO("Error: Achievement does not exist", null), HttpStatus.NOT_FOUND);
         }
         Achievement achievement = achievementService.updateAchievement(ach_id, body);
         achievementService.save(achievement);
@@ -62,7 +63,7 @@ public class AchievementController {
     @PatchMapping("/patch-streak/{retain_streak}")
     public ResponseEntity<AchievementResponsePOJO> updateStreak(@RequestHeader ("ach-id") String ach_id, @PathVariable String retain_streak) {
         if (achievementService.findById(ach_id)==null) {
-            return new ResponseEntity<>(new AchievementResponsePOJO("Achievement does not exist", null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new AchievementResponsePOJO("Error: Achievement does not exist", null), HttpStatus.NOT_FOUND);
         }
         Achievement achievement = achievementService.updateStreak(ach_id, Boolean.parseBoolean(retain_streak));
         achievementService.save(achievement);
@@ -73,7 +74,7 @@ public class AchievementController {
     public ResponseEntity<?> patchStreak(@RequestBody PatchStreakPOJO update_info) {
         List<Achievement> achievementList = achievementService.getAllAchievementsByHabit(update_info.hab_id);
         if (achievementList.isEmpty()) {
-            return new ResponseEntity<>(new AchievementResponsePOJO("Achievements not found", null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new AchievementResponsePOJO("Error: Achievements not found", null), HttpStatus.NOT_FOUND);
         }
         List<Milestone> milestoneList = Collections.<Milestone>emptyList();
         for (Achievement a: achievementList) {
@@ -83,5 +84,14 @@ public class AchievementController {
         }
         achievementList = achievementService.getAllAchievementsByHabit(update_info.hab_id);
         return new ResponseEntity<>(new PatchResponsePOJO("Streaks updated", new PatchResponsePairPOJO(achievementList, milestoneList)), HttpStatus.OK);
+    }
+
+    @GetMapping("/find/ach")
+    public ResponseEntity<?> findAchievementById(@RequestHeader String ach_id) {
+        Achievement achievement = achievementService.findById(ach_id);
+        if (achievement == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement does not exist"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new AchievementResponsePOJO("Achievement found", achievement), HttpStatus.OK);
     }
 }

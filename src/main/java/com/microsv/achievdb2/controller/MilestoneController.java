@@ -1,5 +1,6 @@
 package com.microsv.achievdb2.controller;
 
+import com.microsv.achievdb2.model.Achievement;
 import com.microsv.achievdb2.model.Milestone;
 import com.microsv.achievdb2.pojo.*;
 import com.microsv.achievdb2.service.AchievementService;
@@ -44,7 +45,7 @@ public class MilestoneController {
     @DeleteMapping("/del-mil")
     public ResponseEntity<MessageResponsePOJO> deleteMilestione(@RequestHeader ("mil-id") String mil_id) {
         if (milestoneService.findById(mil_id)==null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Milestone does not exist"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Milestone does not exist"), HttpStatus.NOT_FOUND);
         }
         milestoneService.deleteMilestone(mil_id);
         return new ResponseEntity<>(new MessageResponsePOJO("Milestone deleted"), HttpStatus.OK);
@@ -55,11 +56,46 @@ public class MilestoneController {
             @RequestHeader ("mil-id") String mil_id,
             @RequestBody MilestonePOJO body) {
         if (milestoneService.findById(mil_id)==null) {
-            return new ResponseEntity<>(new MilestoneResponsePOJO("Milestone does not exist", null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MilestoneResponsePOJO("Error: Milestone does not exist", null), HttpStatus.NOT_FOUND);
         }
         Milestone milestone = milestoneService.updateMilestone(mil_id, body);
         milestoneService.save(milestone);
         return new ResponseEntity<>(new MilestoneResponsePOJO("Milestone updated", milestone), HttpStatus.OK);
+    }
+
+    @GetMapping("/find/mil")
+    public ResponseEntity<?> findMilestoneById(@RequestHeader String mil_id) {
+        Milestone milestone = milestoneService.findById(mil_id);
+        if (milestone == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Milestone does not exist"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new MilestoneResponsePOJO("Milestone found", milestone), HttpStatus.OK);
+    }
+
+    @GetMapping("/findby-mil/ach")
+    public ResponseEntity<?> findAchievementByMilestone(@RequestHeader String mil_id) {
+        Milestone milestone = milestoneService.findById(mil_id);
+        if (milestone == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Milestone does not exist"), HttpStatus.NOT_FOUND);
+        }
+        Achievement achievement = milestone.getAchievement();
+        if (achievement == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement does not exist"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new AchievementResponsePOJO("Achievement found", achievement), HttpStatus.OK);
+    }
+
+    @GetMapping("/findby-mil/hab-id")
+    public ResponseEntity<?> findHabIdByMilestone(@RequestHeader String mil_id) {
+        Milestone milestone = milestoneService.findById(mil_id);
+        if (milestone == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Milestone does not exist"), HttpStatus.NOT_FOUND);
+        }
+        Achievement achievement = milestone.getAchievement();
+        if (achievement == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement does not exist"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new StringResponsePOJO("Achievement found", achievement.getHabit()), HttpStatus.OK);
     }
 
 }
