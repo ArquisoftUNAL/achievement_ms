@@ -29,6 +29,11 @@ public class MilestoneController {
         return new ResponseEntity<>(new MilestoneListResponsePOJO("Milestones found", milestoneService.getAllMilestonesByAchievement(ach_id,page,per_page)), HttpStatus.OK);
     }
 
+    @GetMapping("/{ach_id}")
+    public ResponseEntity<MilestoneListResponsePOJO> getAllMilestonesByAchievement(@PathVariable String ach_id) {
+        return new ResponseEntity<>(new MilestoneListResponsePOJO("Milestones found", milestoneService.getAllMilestonesByAchievement(ach_id)), HttpStatus.OK);
+    }
+
     @PostMapping(value = { "/create-mil" })
     public ResponseEntity<MessageResponsePOJO> createMilestone(@RequestBody MilestonePOJO body) {
         if (achievementService.findById(body.getAchId())==null) {

@@ -29,6 +29,10 @@ public class MilestoneService {
         return milestoneRepository.getAllMilestonesByAchievement(ach_id,(page-1)*per_page, per_page);
     }
 
+    public List<Milestone> getAllMilestonesByAchievement(String ach_id) {
+        return milestoneRepository.getAllMilestonesByAchievement(ach_id);
+    }
+
     public void save(Milestone milestone) {
         milestoneRepository.save(milestone);
     }

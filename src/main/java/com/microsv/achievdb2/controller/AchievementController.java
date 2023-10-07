@@ -30,6 +30,11 @@ public class AchievementController {
         return new ResponseEntity<>(new AchievementListResponsePOJO("Achievements found", achievementService.getAllAchievementsByHabit(hab_id,page,per_page)), HttpStatus.OK);
     }
 
+    @GetMapping("/{hab_id}")
+    public ResponseEntity<AchievementListResponsePOJO> getAllAchievementsByHabit(@PathVariable String hab_id) {
+        return new ResponseEntity<>(new AchievementListResponsePOJO("Achievements found", achievementService.getAllAchievementsByHabit(hab_id)), HttpStatus.OK);
+    }
+
     @PostMapping(value = { "/create-ach" })
     public ResponseEntity<MessageResponsePOJO> createAchievement(@RequestBody AchievementPOJO body) {
         Achievement achievement = achievementService.makeAchievement(body);
