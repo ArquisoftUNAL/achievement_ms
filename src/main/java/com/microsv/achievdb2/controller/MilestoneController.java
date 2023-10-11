@@ -35,16 +35,16 @@ public class MilestoneController {
     }
 
     @PostMapping(value = { "/create-mil" })
-    public ResponseEntity<MessageResponsePOJO> createMilestone(@RequestBody MilestonePOJO body) {
+    public ResponseEntity<MilestoneResponsePOJO> createMilestone(@RequestBody MilestonePOJO body) {
         if (achievementService.findById(body.getAchId())==null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Error: achievement not found"),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MilestoneResponsePOJO("Error: achievement not found", null),HttpStatus.NOT_FOUND);
         }
         Milestone milestone = milestoneService.makeMilestone(body);
         if (milestone == null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Error: could not create milestone"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new MilestoneResponsePOJO("Error: could not create milestone", null), HttpStatus.BAD_REQUEST);
         }
         milestoneService.save(milestone);
-        return new ResponseEntity<>(new MessageResponsePOJO("Milestone created"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new MilestoneResponsePOJO("Milestone created", milestone), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/del-mil")
@@ -77,7 +77,7 @@ public class MilestoneController {
         return new ResponseEntity<>(new MilestoneResponsePOJO("Milestone found", milestone), HttpStatus.OK);
     }
 
-    @GetMapping("/findby-mil/ach")
+    @GetMapping("/find-by-mil/ach")
     public ResponseEntity<?> findAchievementByMilestone(@RequestHeader String mil_id) {
         Milestone milestone = milestoneService.findById(mil_id);
         if (milestone == null) {
@@ -85,7 +85,7 @@ public class MilestoneController {
         }
         Achievement achievement = milestone.getAchievement();
         if (achievement == null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement does not exist"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Milestone found but achievement does not exist"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new AchievementResponsePOJO("Achievement found", achievement), HttpStatus.OK);
     }
@@ -98,9 +98,12 @@ public class MilestoneController {
         }
         Achievement achievement = milestone.getAchievement();
         if (achievement == null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement does not exist"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Milestone found but achievement does not exist"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(new StringResponsePOJO("Achievement found", achievement.getHabit()), HttpStatus.OK);
+        if (achievement.getHabit() == null) {
+            return new ResponseEntity<>(new MessageResponsePOJO("Error: Achievement found but no habit associated found"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(new StringResponsePOJO("Habit found", achievement.getHabit()), HttpStatus.OK);
     }
 
 }

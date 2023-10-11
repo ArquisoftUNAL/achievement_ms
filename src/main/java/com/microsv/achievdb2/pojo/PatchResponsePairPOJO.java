@@ -7,21 +7,21 @@ import java.util.List;
 
 public class PatchResponsePairPOJO {
 
-    public List<Achievement> achievement;
+    public List<Achievement> achievementList;
 
     public List<Milestone> milestoneList;
 
-    public PatchResponsePairPOJO(List<Achievement> achievement, List<Milestone> milestoneList) {
-        this.achievement = achievement;
+    public PatchResponsePairPOJO(List<Achievement> achievementList, List<Milestone> milestoneList) {
+        this.achievementList = achievementList;
         this.milestoneList = milestoneList;
     }
 
     public List<Achievement> getAchievement() {
-        return achievement;
+        return achievementList;
     }
 
-    public void setAchievement(List<Achievement> achievement) {
-        this.achievement = achievement;
+    public void setAchievement(List<Achievement> achievementList) {
+        this.achievementList = achievementList;
     }
 
     public List<Milestone> getMilestoneList() {

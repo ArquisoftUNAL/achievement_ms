@@ -36,13 +36,13 @@ public class AchievementController {
     }
 
     @PostMapping(value = { "/create-ach" })
-    public ResponseEntity<MessageResponsePOJO> createAchievement(@RequestBody AchievementPOJO body) {
+    public ResponseEntity<AchievementResponsePOJO> createAchievement(@RequestBody AchievementPOJO body) {
         Achievement achievement = achievementService.makeAchievement(body);
         if (achievement == null) {
-            return new ResponseEntity<>(new MessageResponsePOJO("Error: could not create achievement"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AchievementResponsePOJO("Error: could not create achievement", null), HttpStatus.BAD_REQUEST);
         }
         achievementService.save(achievement);
-        return new ResponseEntity<>(new MessageResponsePOJO("Achievement created"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new AchievementResponsePOJO("Achievement created", achievement), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/del-ach")
